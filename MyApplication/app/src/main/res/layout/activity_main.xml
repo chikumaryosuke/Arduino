@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="fill_parent"
+    android:weightSum="1"
+    android:layout_width="fill_parent"
+    android:orientation="vertical"
+    app:layout_collapseParallaxMultiplier="1.0">
+
+    <Button android:id="@+id/connectButton"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Connect" />
+
+    <TextView
+        android:id="@+id/statusValue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Button android:id="@+id/ledOnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="forward"
+
+        android:background="?android:attr/colorMultiSelectHighlight" />
+
+    <Button android:id="@+id/ledOffButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="back"
+        android:background="@android:color/holo_orange_light" />
+
+    <TextView
+        android:text="lattitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_View1" />
+
+    <TextView
+        android:text="longitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/text_View2" />
+
+    <TextView
+        android:text="~       Sensor Monitor       ~"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView" />
+
+    <TextView
+        android:text="Sensor1                   Sensor2                  Sensor3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/inputValue"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:layout_weight="0.22"
+        android:background="#30c0c0c0"/>
+
+    <TextView
+        android:text="Sensor4                  Sensor5                   Sensor6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView4"
+        android:layout_weight="0.29"
+        android:background="#30c0c0c0"/>
+
+</LinearLayout>
