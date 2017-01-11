@@ -1,63 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="fill_parent"
     android:weightSum="1"
     android:layout_width="fill_parent"
     android:orientation="vertical"
     app:layout_collapseParallaxMultiplier="1.0">
 
-    <Button android:id="@+id/connectButton"
-        android:layout_width="fill_parent"
+    <TextView
+        android:text="Bluetooth Connection"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:id="@+id/textView1111" />
+
+    <Button android:id="@+id/connectButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="Connect" />
 
     <TextView
         android:id="@+id/statusValue"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        />
-
-    <Button android:id="@+id/ledOnButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="forward"
-
-        android:background="?android:attr/colorMultiSelectHighlight" />
-
-    <Button android:id="@+id/ledOffButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="back"
-        android:background="@android:color/holo_orange_light" />
+        android:gravity="center" />
 
     <TextView
-        android:text="lattitude"
+        android:text="Robot Motion"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/textView111" />
+
+    <LinearLayout
+        android:id="@+id/motions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button android:id="@+id/ledOnButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="forward"
+            android:layout_weight="1"
+            android:background="?android:attr/colorMultiSelectHighlight" />
+
+        <Button android:id="@+id/ledOffButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="back"
+            android:layout_weight="1"
+            android:background="@android:color/holo_orange_light" />
+
+    </LinearLayout>
+
+    <TextView
+        android:text="latitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         android:id="@+id/text_View1" />
 
     <TextView
         android:text="longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         android:id="@+id/text_View2" />
 
     <TextView
-        android:text="~       Sensor Monitor       ~"
+        android:text="Sensor Monitor"
         android:layout_width="match_parent"
         android:textStyle="bold"
         android:textSize="30sp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:id="@+id/textView" />
 
-    <TextView
-        android:text="Sensor1                   Sensor2                  Sensor3"
+
+    <LinearLayout
+        android:id="@+id/sensor123"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView2" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Sensor1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView6" />
+
+        <TextView
+            android:text="Sensor2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView5" />
+
+        <TextView
+            android:text="Sensor3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView7" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/inputValue"
@@ -67,11 +126,37 @@
         android:layout_weight="0.22"
         android:background="#30c0c0c0"/>
 
-    <TextView
-        android:text="Sensor4                  Sensor5                   Sensor6"
+    <LinearLayout
+        android:id="@+id/sensor456"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView3" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:text="Sensor4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView8" />
+
+        <TextView
+            android:text="Sensor5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView9" />
+
+        <TextView
+            android:text="Sensor6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:id="@+id/textView10" />
+
+    </LinearLayout>
 
     <TextView
         android:layout_width="match_parent"
