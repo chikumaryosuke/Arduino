@@ -1,56 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="fill_parent"
     android:weightSum="1"
     android:layout_width="fill_parent"
     android:orientation="vertical"
+    android:columnCount="3"
     app:layout_collapseParallaxMultiplier="1.0">
+
+    <TextView
+        android:text="Bluetooth Connection"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/textView1111" />
 
     <Button android:id="@+id/connectButton"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         android:text="Connect" />
 
     <TextView
         android:id="@+id/statusValue"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         />
 
+    <TextView
+        android:text="Robot Motion"
+        android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/textView111" />
+
     <Button android:id="@+id/ledOnButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="forward"
-
+        android:layout_columnSpan="3"
         android:background="?android:attr/colorMultiSelectHighlight" />
 
     <Button android:id="@+id/ledOffButton"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="back"
+        android:layout_columnSpan="3"
         android:background="@android:color/holo_orange_light" />
 
     <TextView
-        android:text="lattitude"
+        android:text="latitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         android:id="@+id/text_View1" />
 
     <TextView
         android:text="longitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_columnSpan="3"
         android:id="@+id/text_View2" />
 
     <TextView
-        android:text="~       Sensor Monitor       ~"
+        android:text="Sensor Monitor"
         android:layout_width="match_parent"
         android:textStyle="bold"
         android:textSize="30sp"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:id="@+id/textView" />
 
     <TextView
@@ -80,4 +105,4 @@
         android:layout_weight="0.29"
         android:background="#30c0c0c0"/>
 
-</LinearLayout>
+</GridLayout>
