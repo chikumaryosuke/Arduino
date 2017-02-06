@@ -3,6 +3,7 @@ package com.example.chikumaryousuke.myapplication;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.database.DefaultDatabaseErrorHandler;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,8 +52,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     /* Bluetooth UUID */
     private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
-    /* デバイス名 */
-    private final String DEVICE_NAME = "RNBT-84F4";
+
 
     /* Soket */
     private BluetoothSocket mSocket;
@@ -109,6 +109,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     private boolean connectFlg = false;
 
     private String out_Text ="";
+
     /** 取得データの終了文字以降(2文字目以降)を格納(文字列) */
     private String out_Text_bk ="";
 
@@ -118,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         setContentView(R.layout.activity_main);
 
         mInputTextView = (TextView) findViewById(R.id.inputValue);
-        mStatusTextView = (TextView) findViewById(R.id.statusValue);
+        mStatusTextView = (Button) findViewById(R.id.statusValue);
         connectButton = (Button) findViewById(R.id.connectButton);
         ledOnButton = (Button) findViewById(R.id.ledOnButton);
         ledOffButton = (Button) findViewById(R.id.ledOffButton);
@@ -130,16 +131,16 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
         // Bluetoothのデバイス名を取得
         // デバイス名は、RNBT-XXXXになるため、
-        // DVICE_NAMEでデバイス名を定義
+        // DEVICE_NAMEでデバイス名を定義
         mAdapter = BluetoothAdapter.getDefaultAdapter();
-        mStatusTextView.setText("SearchDevice");
+        mStatusTextView.setText("ペアリングしてください");
         Set<BluetoothDevice> devices = mAdapter.getBondedDevices();
         for (BluetoothDevice device : devices) {
 
-            if (device.getName().equals(DEVICE_NAME)) {
-                mStatusTextView.setText("find: " + device.getName());
-                mDevice = device;
-            }
+            mStatusTextView.setText("find: " + device.getName()+"\n"+device.getAddress());
+            mDevice=device;
+
+
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -248,6 +249,9 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         }
     }
 
+
+
+
     @Override
     public void onClick(View v) {
         if (v.equals(connectButton)) {
@@ -306,6 +310,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
             }
         }
     };
+
 
 
 
