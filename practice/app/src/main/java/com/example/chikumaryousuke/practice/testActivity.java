@@ -173,10 +173,10 @@ public class testActivity extends ActionBarActivity implements Runnable, View.On
                         rmessage[i] = readMsg.substring(i * 10, i * 10 + 9);
                     }
 
-                    StringBuilder builder =new StringBuilder();
-                    for (int i=0; i< rmessage.length;i++){
+                    StringBuilder builder = new StringBuilder();
+                    for (int i = 0; i < rmessage.length; i++) {
                         builder.append(rmessage[i]);
-                        if(i != rmessage.length - 1){
+                        if (i != rmessage.length - 1) {
                             builder.append(".");
                         }
                     }

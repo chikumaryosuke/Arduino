@@ -16,6 +16,8 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
 
@@ -122,9 +124,14 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      */
     private String out_Text_bk = "";
 
+    /**
+     * defaultはArduino用 (false)
+     * cubicのときにTrueにする
+     * @param savedInstanceState
+     */
+    private boolean forCubic = false;
 
     @Override
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -214,44 +221,86 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
             while (isRunning) {
 
-                // InputStreamの読み込み
-                bytes = mmInStream.read(buffer);
-                Log.i(TAG, "bytes=" + bytes);
-                // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
-                String readMsg = out_Text_bk + new String(buffer, 0, bytes);
-                // 退避用変数の初期化
-                out_Text_bk = "";
-                // 出力フラグの初期化
-                Boolean dataEndFlg = false;
+                if (forCubic == true) {
+                    // cubic
+                    // InputStreamの読み込み
+                    bytes = mmInStream.read(buffer);
+                    Log.i(TAG, "bytes=" + bytes);
+                    // String型に変換
+                    String readMsg = new String(buffer, 0, bytes);
+                    String[] rmessage = new String[20];
 
-                // 読み込んだ文字列を1文字ずつ取得
-                for (int i = 0; readMsg.length() > i; i++) {
-                    char readChar = readMsg.charAt(i);
-                    // 文字判定
-                    if (readChar == '*') {
-                        // 終了文字を確認した時点で出力フラグを立てる
-                        dataEndFlg = true;
-                        // 終了文字以降
-                    } else if (dataEndFlg) {
-                        // 文字を退避
-                        out_Text_bk = out_Text_bk + readChar;
-                        // 終了文字以前
-                    } else {
-                        // 出力用に設定
-                        out_Text = out_Text + readChar;
+
+                    if (bytes > 199) {
+                        // separate data from c-cubic
+                        for (int i = 0; i < 20; i++) {
+                            rmessage[i] = readMsg.substring(i * 10, i * 10 + 9);
+                        }
+
+                        // for debug
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 0; i < rmessage.length; i++) {
+                            builder.append(rmessage[i]);
+                            if (i != rmessage.length - 1) {
+                                builder.append(".");
+                            }
+                        }
+                        String str = builder.toString();
+
+                        // null以外なら表示
+                        if (readMsg.trim() != null && !readMsg.trim().equals("")) {
+                            Log.i(TAG, "value=" + readMsg.trim());
+                            valueMsg = new Message();
+                            valueMsg.what = VIEW_INPUT;
+                            valueMsg.obj = rmessage;
+                            mHandler.sendMessage(valueMsg);
+                        } else {
+                            // Log.i(TAG,"value=nodata");
+                        }
                     }
-                }
+                } else {
+                    // arduino
 
-                // 出力フラグがtrueかつnull(空文字含む)以外なら表示
-                if (dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")) {
-                    Log.i(TAG, "value=" + out_Text.trim());
+                    // InputStreamの読み込み
+                    bytes = mmInStream.read(buffer);
+                    Log.i(TAG, "bytes=" + bytes);
+                    // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
+                    String readMsg = out_Text_bk + new String(buffer, 0, bytes);
+                    // 退避用変数の初期化
+                    out_Text_bk = "";
+                    // 出力フラグの初期化
+                    Boolean dataEndFlg = false;
 
-                    valueMsg = new Message();
-                    valueMsg.what = VIEW_INPUT;
-                    valueMsg.obj = out_Text.trim();
-                    mHandler.sendMessage(valueMsg);
-                    // 出力用変数の初期化
-                    out_Text = "";
+                    // 読み込んだ文字列を1文字ずつ取得
+                    for (int i = 0; readMsg.length() > i; i++) {
+                        char readChar = readMsg.charAt(i);
+                        // 文字判定
+                        if (readChar == '*') {
+                            // 終了文字を確認した時点で出力フラグを立てる
+                            dataEndFlg = true;
+                            // 終了文字以降
+                        } else if (dataEndFlg) {
+                            // 文字を退避
+                            out_Text_bk = out_Text_bk + readChar;
+                            // 終了文字以前
+                        } else {
+                            // 出力用に設定
+                            out_Text = out_Text + readChar;
+                        }
+                    }
+
+                    // 出力フラグがtrueかつnull(空文字含む)以外なら表示
+                    if (dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")) {
+                        Log.i(TAG, "value=" + out_Text.trim());
+
+                        valueMsg = new Message();
+                        valueMsg.what = VIEW_INPUT;
+                        valueMsg.obj = out_Text.trim();
+                        mHandler.sendMessage(valueMsg);
+                        // 出力用変数の初期化
+                        out_Text = "";
+                    }
+
                 }
             }
 
@@ -275,8 +324,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     public void onClick(View v) {
         if (v.equals(connectButton)) {
             if (!connectFlg) {
-
-                mStatusTextView.setText("try connect");
+                mStatusTextView.setText("Try connect");
 
                 mThread = new Thread(this);
                 // Threadを起動し、Bluetooth接続
@@ -333,17 +381,32 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         @Override
         public void handleMessage(Message msg) {
             int action = msg.what;
-            String msgStr = (String) msg.obj;
-            if (action == VIEW_INPUT) {
-                mInputTextView.setText(msgStr);
-//                mInputTextView2.setText()
-//                mInputTextView3.setText()
-//                mInputTextView4.setText()
-//                mInputTextView5.setText()
-//                mInputTextView6.setText()
-            } else if (action == VIEW_STATUS) {
-                mStatusTextView.setText(msgStr);
+            if (forCubic == true) {
+                if (action == VIEW_INPUT) {
+                    String[] messages = (String[]) msg.obj;
+                    mInputTextView.setText(messages[0]);
+                    mInputTextView2.setText(messages[1]);
+                    mInputTextView3.setText(messages[2]);
+                    mInputTextView4.setText(messages[3]);
+                    mInputTextView5.setText(messages[4]);
+                    mInputTextView6.setText(messages[5]);
+                    mInputTextView7.setText(messages[6]);
+                    mInputTextView8.setText(messages[7]);
+                    mInputTextView9.setText(messages[8]);
+                    mInputTextView10.setText(messages[9]);
+                } else if (action == VIEW_STATUS) {
+                    String messages = (String) msg.obj;
+                    mStatusTextView.setText(messages);
+                }
+            } else {
+                String messages = (String) msg.obj;
+                if (action == VIEW_INPUT) {
+                    mInputTextView.setText(messages);
+                } else if (action == VIEW_STATUS) {
+                    mStatusTextView.setText(messages);
+                }
             }
+
         }
     };
 
@@ -409,14 +472,13 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
-        // 緯度の表示
-        TextView textView1 = (TextView) findViewById(R.id.text_View1);
-        textView1.setText("Latitude:" + location.getLatitude());
-
-        // 経度の表示
-        TextView textView2 = (TextView) findViewById(R.id.text_View2);
-        textView2.setText("Longitude:" + location.getLongitude());
-
+//        // 緯度の表示
+//        TextView textView1 = (TextView) findViewById(R.id.text_View1);
+//        textView1.setText("Latitude:" + location.getLatitude());
+//
+//        // 経度の表示
+//        TextView textView2 = (TextView) findViewById(R.id.text_View2);
+//        textView2.setText("Longitude:" + location.getLongitude());
     }
 
     @Override
