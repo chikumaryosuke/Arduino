@@ -1,22 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.chikumaryousuke.myapplication">
+    package="com.example.chikumaryousuke.practice">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="BT Connection"
+        android:label=" JAFS-cubic"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity"
-            android:label="BT Connection"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".testActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
