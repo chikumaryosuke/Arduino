@@ -161,11 +161,8 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mStatusTextView.setText("ペアリングしてください");
         Set<BluetoothDevice> devices = mAdapter.getBondedDevices();
         for (BluetoothDevice device : devices) {
-
             mStatusTextView.setText("find: " + device.getName() + "\n" + device.getAddress());
             mDevice = device;
-
-
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -429,5 +426,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
     @Override
     public void onProviderDisabled(String provider) {
+
     }
 }

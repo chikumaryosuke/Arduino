@@ -9,16 +9,11 @@
     app:layout_collapseParallaxMultiplier="1.0">
 
     <TextView
-<<<<<<< HEAD
         android:id="@+id/textView1111"
-=======
-        android:text="BT Connection"
-        android:layout_height="wrap_content"
->>>>>>> upstream/master
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Bluetooth Connection"
+        android:text="BT Connection"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -68,15 +63,14 @@
             android:background="@android:color/holo_orange_light"
             android:text="back" />
 
-        <Button android:id="@+id/lButton"
+        <Button
+            android:id="@+id/lButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="stop"
             android:layout_weight="1"
-            android:background="@android:color/holo_red_light" />
-
-
+            android:background="@android:color/holo_red_light"
+            android:text="stop" />
     </LinearLayout>
 
     <!--Start Sensor Monitor-->
@@ -327,7 +321,6 @@
     <LinearLayout
         android:id="@+id/sensor101112data"
         android:layout_width="match_parent"
-<<<<<<< HEAD
         android:layout_height="wrap_content"
         android:background="#30c0c0c0"
         android:orientation="horizontal">
@@ -358,27 +351,20 @@
 
     </LinearLayout>
 
-=======
-        android:layout_height="44dp"
-        android:id="@+id/textView4"
-        android:background="#30c0c0c0"/>
->>>>>>> upstream/master
-
     <TextClock
         android:layout_width="wrap_content"
         android:layout_height="60dp"
-        android:textSize="50sp"
-        android:timeZone="GMT+900"
-        android:format24Hour="HH:mm:ss"
         android:format12Hour="hh:mm:ss"
-        />
+        android:format24Hour="HH:mm:ss"
+        android:textSize="50sp"
+        android:timeZone="GMT+900" />
 
 
     <ImageView
-        android:src="@drawable/jafs"
-        android:scaleType="fitCenter"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"/>
+        android:layout_height="30dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/jafs" />
 </LinearLayout>
 
 
