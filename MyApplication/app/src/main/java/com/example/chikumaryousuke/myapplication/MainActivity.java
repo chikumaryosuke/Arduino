@@ -72,7 +72,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      * LED ONボタン.
      */
     private Button ledOnButton;
-
+    private Button lButton;
     /**
      * LED OFFボタン.
      */
@@ -123,11 +123,13 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         connectButton = (Button) findViewById(R.id.connectButton);
         ledOnButton = (Button) findViewById(R.id.ledOnButton);
         ledOffButton = (Button) findViewById(R.id.ledOffButton);
+        lButton= (Button) findViewById(R.id.lButton);
 
         connectButton.setOnClickListener(this);
 
         ledOnButton.setOnClickListener(this);
         ledOffButton.setOnClickListener(this);
+        lButton.setOnClickListener(this);
 
         // Bluetoothのデバイス名を取得
         // デバイス名は、RNBT-XXXXになるため、
@@ -292,6 +294,17 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
             } else {
                 mStatusTextView.setText("Please push the connect button");
             }
+        }else if (v.equals(lButton)){
+            if (connectFlg) {
+                try {
+                    mmOutputStream.write("2".getBytes());
+                    mStatusTextView.setText("stop:");
+                } catch (IOException e) {
+                    Message valueMsg = new Message();
+                    valueMsg.what = VIEW_STATUS;
+                    valueMsg.obj = "Error5:" + e;
+                    mHandler.sendMessage(valueMsg);}
+                }
         }
     }
 

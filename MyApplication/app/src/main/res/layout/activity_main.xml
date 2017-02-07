@@ -60,6 +60,15 @@
             android:layout_weight="1"
             android:background="@android:color/holo_orange_light" />
 
+        <Button android:id="@+id/lButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="stop"
+            android:layout_weight="1"
+            android:background="@android:color/holo_red_light" />
+
+
     </LinearLayout>
 
     <TextView
@@ -160,16 +169,25 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="44dp"
         android:id="@+id/textView4"
         android:background="#30c0c0c0"/>
+
+    <TextClock
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textSize="50sp"
+        android:timeZone="GMT+900"
+        android:format24Hour="HH:mm:ss"
+        android:format12Hour="hh:mm:ss"
+        />
 
 
     <ImageView
         android:src="@drawable/jafs"
         android:scaleType="fitCenter"
         android:layout_width="wrap_content"
-        android:layout_height="100dp"/>
+        android:layout_height="30dp"/>
 </LinearLayout>
 
 
