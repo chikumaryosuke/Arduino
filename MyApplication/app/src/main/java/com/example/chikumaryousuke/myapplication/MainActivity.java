@@ -26,13 +26,11 @@ import android.location.LocationProvider;
 import android.support.v4.app.ActivityCompat;
 
 
-
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 import android.Manifest;
-
 
 
 public class MainActivity extends ActionBarActivity implements LocationListener, Runnable, View.OnClickListener {
@@ -87,6 +85,17 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      * Bluetoothから受信した値.
      */
     private TextView mInputTextView;
+    private TextView mInputTextView2;
+    private TextView mInputTextView3;
+    private TextView mInputTextView4;
+    private TextView mInputTextView5;
+    private TextView mInputTextView6;
+    private TextView mInputTextView7;
+    private TextView mInputTextView8;
+    private TextView mInputTextView9;
+    private TextView mInputTextView10;
+    private TextView mInputTextView11;
+    private TextView mInputTextView12;
 
     /**
      * Action(ステータス表示).
@@ -108,9 +117,11 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      */
     private boolean connectFlg = false;
 
-    private String out_Text ="";
-    /** 取得データの終了文字以降(2文字目以降)を格納(文字列) */
-    private String out_Text_bk ="";
+    private String out_Text = "";
+    /**
+     * 取得データの終了文字以降(2文字目以降)を格納(文字列)
+     */
+    private String out_Text_bk = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,6 +129,16 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         setContentView(R.layout.activity_main);
 
         mInputTextView = (TextView) findViewById(R.id.inputValue);
+        mInputTextView2 = (TextView) findViewById(R.id.inputValue2);
+        mInputTextView3 = (TextView) findViewById(R.id.inputValue3);
+        mInputTextView4 = (TextView) findViewById(R.id.inputValue4);
+        mInputTextView5 = (TextView) findViewById(R.id.inputValue5);
+        mInputTextView6 = (TextView) findViewById(R.id.inputValue6);
+        mInputTextView7 = (TextView) findViewById(R.id.inputValue7);
+        mInputTextView8 = (TextView) findViewById(R.id.inputValue8);
+        mInputTextView9 = (TextView) findViewById(R.id.inputValue9);
+        mInputTextView10 = (TextView) findViewById(R.id.inputValue10);
+
         mStatusTextView = (TextView) findViewById(R.id.statusValue);
         connectButton = (Button) findViewById(R.id.connectButton);
         ledOnButton = (Button) findViewById(R.id.ledOnButton);
@@ -171,7 +192,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mHandler.sendMessage(valueMsg);
 
         try {
-
             // 取得したデバイス名を使ってBluetoothでSocket接続
             mSocket = mDevice.createRfcommSocketToServiceRecord(MY_UUID);
             mSocket.connect();
@@ -190,11 +210,11 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
             connectFlg = true;
 
-            while(isRunning){
+            while (isRunning) {
 
                 // InputStreamの読み込み
                 bytes = mmInStream.read(buffer);
-                Log.i(TAG,"bytes="+bytes);
+                Log.i(TAG, "bytes=" + bytes);
                 // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
                 String readMsg = out_Text_bk + new String(buffer, 0, bytes);
                 // 退避用変数の初期化
@@ -203,26 +223,26 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                 Boolean dataEndFlg = false;
 
                 // 読み込んだ文字列を1文字ずつ取得
-                for(int i=0 ; readMsg.length() > i ; i++) {
+                for (int i = 0; readMsg.length() > i; i++) {
                     char readChar = readMsg.charAt(i);
                     // 文字判定
-                    if (readChar == '*')  {
+                    if (readChar == '*') {
                         // 終了文字を確認した時点で出力フラグを立てる
                         dataEndFlg = true;
                         // 終了文字以降
-                    }else if (dataEndFlg) {
+                    } else if (dataEndFlg) {
                         // 文字を退避
                         out_Text_bk = out_Text_bk + readChar;
                         // 終了文字以前
-                    }else{
+                    } else {
                         // 出力用に設定
                         out_Text = out_Text + readChar;
                     }
                 }
 
                 // 出力フラグがtrueかつnull(空文字含む)以外なら表示
-                if( dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")){
-                    Log.i(TAG,"value="+out_Text.trim());
+                if (dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")) {
+                    Log.i(TAG, "value=" + out_Text.trim());
 
                     valueMsg = new Message();
                     valueMsg.what = VIEW_INPUT;
@@ -291,7 +311,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         }
     }
 
-    /**っs
+    /**
      * 描画処理はHandlerでおこなう
      */
     Handler mHandler = new Handler() {
@@ -301,12 +321,16 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
             String msgStr = (String) msg.obj;
             if (action == VIEW_INPUT) {
                 mInputTextView.setText(msgStr);
+//                mInputTextView2.setText()
+//                mInputTextView3.setText()
+//                mInputTextView4.setText()
+//                mInputTextView5.setText()
+//                mInputTextView6.setText()
             } else if (action == VIEW_STATUS) {
                 mStatusTextView.setText(msgStr);
             }
         }
     };
-
 
 
     private void locationStart() {
@@ -378,7 +402,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         // 経度の表示
         TextView textView2 = (TextView) findViewById(R.id.text_View2);
         textView2.setText("Longitude:" + location.getLongitude());
-
 
     }
 
