@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-<<<<<<< HEAD
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -44,219 +43,18 @@
 
         <TextView
             android:id="@+id/textView1111"
-=======
-    android:orientation="vertical"
-    android:weightSum="1"
-    app:layout_collapseParallaxMultiplier="1.0">
-
-    <TextView
-        android:id="@+id/textView1111"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="BT Connection"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/connectButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Connect" />
-
-    <Button
-        android:id="@+id/statusValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/textView111"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Robot Motion"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/motions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/ledOnButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="?android:attr/colorMultiSelectHighlight"
-            android:text="forward" />
-
-        <Button
-            android:id="@+id/ledOffButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@android:color/holo_orange_light"
-            android:text="back" />
-
-        <Button
-            android:id="@+id/lButton"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:background="@android:color/holo_red_light"
-            android:text="stop" />
-    </LinearLayout>
-
-    <!--Start Sensor Monitor-->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Sensor Monitor"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
-    <!--First Title Column-->
-    <LinearLayout
-        android:id="@+id/sensor123"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:text="Sensor1" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor2" />
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor3" />
-
-    </LinearLayout>
-
-    <!--First Data Column-->
-    <LinearLayout
-        android:id="@+id/sensor123data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#30c0c0c0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/inputValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-    </LinearLayout>
-
-    <!--Second Title Column-->
-    <LinearLayout
-        android:id="@+id/sensor456"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor4" />
-
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor5" />
-
-        <TextView
-            android:id="@+id/textView20"
->>>>>>> origin/master
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-<<<<<<< HEAD
             android:text="BT Connection"
             android:textSize="30sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/connectButton"
-=======
-            android:text="Sensor6" />
-
-    </LinearLayout>
-
-    <!--Second Data Column-->
-    <LinearLayout
-        android:id="@+id/sensor456data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#30c0c0c0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/inputValue4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue5"
->>>>>>> origin/master
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-<<<<<<< HEAD
             android:text="Connect" />
 
         <Button
@@ -267,68 +65,9 @@
 
         <TextView
             android:id="@+id/textView111"
-=======
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="30sp" />
-
-    </LinearLayout>
-
-    <!--Third Title Column-->
-    <LinearLayout
-        android:id="@+id/sensor789"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor7" />
-
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor8" />
-
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor9" />
-
-    </LinearLayout>
-
-    <!--Third Data Column-->
-    <LinearLayout
-        android:id="@+id/sensor789data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#30c0c0c0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/inputValue7"
->>>>>>> origin/master
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-<<<<<<< HEAD
             android:text="Robot Motion"
             android:textSize="30sp"
             android:textStyle="bold" />
@@ -371,64 +110,12 @@
         <!--Start Sensor Monitor-->
         <TextView
             android:id="@+id/textView"
-=======
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue8"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-    </LinearLayout>
-
-    <!--Forth Title Column-->
-    <LinearLayout
-        android:id="@+id/sensor101112"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView110"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor10" />
-
-        <TextView
-            android:id="@+id/textView118"
->>>>>>> origin/master
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-<<<<<<< HEAD
             android:text="Sensor Monitor"
             android:textSize="30sp"
             android:textStyle="bold" />
-=======
-            android:text="Sensor11" />
-
-        <TextView
-            android:id="@+id/textView119"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="Sensor12" />
->>>>>>> origin/master
 
         <!--First Title Column-->
         <LinearLayout
@@ -913,61 +600,7 @@
             android:scaleType="fitCenter"
             android:src="@drawable/jafs" />
     </LinearLayout>
-<<<<<<< HEAD
 </ScrollView>
-=======
-
-    <!--Third Data Column-->
-    <LinearLayout
-        android:id="@+id/sensor101112data"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#30c0c0c0"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/inputValue10"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue11"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/inputValue12"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="30sp" />
-
-    </LinearLayout>
-
-    <TextClock
-        android:layout_width="wrap_content"
-        android:layout_height="60dp"
-        android:format12Hour="hh:mm:ss"
-        android:format24Hour="HH:mm:ss"
-        android:textSize="50sp"
-        android:timeZone="GMT+900" />
-
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/jafs" />
-</LinearLayout>
-
->>>>>>> origin/master
 
 
 

@@ -42,6 +42,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+
 public class MainActivity extends ActionBarActivity implements LocationListener, Runnable, View.OnClickListener {
 
     private LocationManager locationManager;
@@ -107,7 +108,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     private TextView mInputTextView10;
     private TextView mInputTextView11;
     private TextView mInputTextView12;
-<<<<<<< HEAD
     private TextView mInputTextView13;
     private TextView mInputTextView14;
     private TextView mInputTextView15;
@@ -117,8 +117,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     private TextView mInputTextView19;
     private TextView mInputTextView20;
     private TextView mInputTextView21;
-=======
->>>>>>> origin/master
 
     /**
      * Action(ステータス表示).
@@ -149,7 +147,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     /**
      * defaultはArduino用 (false)
      * cubicのときにTrueにする
-<<<<<<< HEAD
      *
      * @param savedInstanceState
      */
@@ -160,11 +157,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-=======
-     * @param savedInstanceState
-     */
-    private boolean forCubic = false;
->>>>>>> origin/master
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -181,7 +173,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mInputTextView8 = (TextView) findViewById(R.id.inputValue8);
         mInputTextView9 = (TextView) findViewById(R.id.inputValue9);
         mInputTextView10 = (TextView) findViewById(R.id.inputValue10);
-<<<<<<< HEAD
         mInputTextView11 = (TextView) findViewById(R.id.inputValue11);
         mInputTextView12 = (TextView) findViewById(R.id.inputValue12);
         mInputTextView13 = (TextView) findViewById(R.id.inputValue13);
@@ -194,8 +185,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mInputTextView20 = (TextView) findViewById(R.id.inputValue20);
         mInputTextView21 = (TextView) findViewById(R.id.inputValue21);
 
-=======
->>>>>>> origin/master
 
         mStatusTextView = (TextView) findViewById(R.id.statusValue);
         mStatusTextView = (Button) findViewById(R.id.statusValue);
@@ -204,11 +193,8 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         ledOnButton = (Button) findViewById(R.id.ledOnButton);
         ledOffButton = (Button) findViewById(R.id.ledOffButton);
         lButton = (Button) findViewById(R.id.lButton);
-<<<<<<< HEAD
         AruduinoButton = (Button) findViewById(R.id.AruduinoButton);
         cubicButton = (Button) findViewById(R.id.cubicButton);
-=======
->>>>>>> origin/master
 
         AruduinoButton.setOnClickListener(this);
         connectButton.setOnClickListener(this);
@@ -285,7 +271,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                 if (forCubic == true) {
                     // cubic
                     // InputStreamの読み込み
-<<<<<<< HEAD
 
 
                     bytes = mmInStream.read(buffer);
@@ -373,85 +358,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                         out_Text = "";
                     }
 
-=======
-                    bytes = mmInStream.read(buffer);
-                    Log.i(TAG, "bytes=" + bytes);
-                    // String型に変換
-                    String readMsg = new String(buffer, 0, bytes);
-                    String[] rmessage = new String[20];
-
-
-                    if (bytes > 199) {
-                        // separate data from c-cubic
-                        for (int i = 0; i < 20; i++) {
-                            rmessage[i] = readMsg.substring(i * 10, i * 10 + 9);
-                        }
-
-                        // for debug
-                        StringBuilder builder = new StringBuilder();
-                        for (int i = 0; i < rmessage.length; i++) {
-                            builder.append(rmessage[i]);
-                            if (i != rmessage.length - 1) {
-                                builder.append(".");
-                            }
-                        }
-                        String str = builder.toString();
-
-                        // null以外なら表示
-                        if (readMsg.trim() != null && !readMsg.trim().equals("")) {
-                            Log.i(TAG, "value=" + readMsg.trim());
-                            valueMsg = new Message();
-                            valueMsg.what = VIEW_INPUT;
-                            valueMsg.obj = rmessage;
-                            mHandler.sendMessage(valueMsg);
-                        } else {
-                            // Log.i(TAG,"value=nodata");
-                        }
-                    }
-                } else {
-                    // arduino
-
-                    // InputStreamの読み込み
-                    bytes = mmInStream.read(buffer);
-                    Log.i(TAG, "bytes=" + bytes);
-                    // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
-                    String readMsg = out_Text_bk + new String(buffer, 0, bytes);
-                    // 退避用変数の初期化
-                    out_Text_bk = "";
-                    // 出力フラグの初期化
-                    Boolean dataEndFlg = false;
-
-                    // 読み込んだ文字列を1文字ずつ取得
-                    for (int i = 0; readMsg.length() > i; i++) {
-                        char readChar = readMsg.charAt(i);
-                        // 文字判定
-                        if (readChar == '*') {
-                            // 終了文字を確認した時点で出力フラグを立てる
-                            dataEndFlg = true;
-                            // 終了文字以降
-                        } else if (dataEndFlg) {
-                            // 文字を退避
-                            out_Text_bk = out_Text_bk + readChar;
-                            // 終了文字以前
-                        } else {
-                            // 出力用に設定
-                            out_Text = out_Text + readChar;
-                        }
-                    }
-
-                    // 出力フラグがtrueかつnull(空文字含む)以外なら表示
-                    if (dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")) {
-                        Log.i(TAG, "value=" + out_Text.trim());
-
-                        valueMsg = new Message();
-                        valueMsg.what = VIEW_INPUT;
-                        valueMsg.obj = out_Text.trim();
-                        mHandler.sendMessage(valueMsg);
-                        // 出力用変数の初期化
-                        out_Text = "";
-                    }
-
->>>>>>> origin/master
                 }
             }
 
@@ -522,7 +428,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                     mHandler.sendMessage(valueMsg);
                 }
             }
-<<<<<<< HEAD
         } else if (v.equals(AruduinoButton)) {
             if (connectFlg) {
                 mStatusTextView.setText("Aruduino Mode:");
@@ -538,8 +443,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
 
             }
-=======
->>>>>>> origin/master
         }
 
     }
@@ -564,7 +467,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                     mInputTextView8.setText(messages[7]);
                     mInputTextView9.setText(messages[8]);
                     mInputTextView10.setText(messages[9]);
-<<<<<<< HEAD
                     mInputTextView11.setText(messages[10]);
                     mInputTextView12.setText(messages[11]);
                     mInputTextView13.setText(messages[12]);
@@ -576,8 +478,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                     mInputTextView19.setText(messages[18]);
                     mInputTextView20.setText(messages[19]);
 
-=======
->>>>>>> origin/master
                 } else if (action == VIEW_STATUS) {
                     String messages = (String) msg.obj;
                     mStatusTextView.setText(messages);
@@ -663,7 +563,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 //        // 経度の表示
 //        TextView textView2 = (TextView) findViewById(R.id.text_View2);
 //        textView2.setText("Longitude:" + location.getLongitude());
-<<<<<<< HEAD
     }
 
     @Override
@@ -690,8 +589,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                 .setObject(object)
                 .setActionStatus(Action.STATUS_TYPE_COMPLETED)
                 .build();
-=======
->>>>>>> origin/master
     }
 
     @Override
@@ -705,7 +602,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     }
 
     @Override
-<<<<<<< HEAD
     public void onStop() {
         super.onStop();
 
@@ -713,9 +609,5 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
-=======
-    public void onProviderDisabled(String provider) {
-
->>>>>>> origin/master
     }
 }
