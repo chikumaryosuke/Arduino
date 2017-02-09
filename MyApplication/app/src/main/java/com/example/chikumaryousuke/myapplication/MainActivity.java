@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.database.DefaultDatabaseErrorHandler;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,8 +17,11 @@ import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
+
 
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -27,13 +31,16 @@ import android.location.LocationProvider;
 import android.support.v4.app.ActivityCompat;
 
 
-
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 import android.Manifest;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 
 public class MainActivity extends ActionBarActivity implements LocationListener, Runnable, View.OnClickListener {
@@ -53,7 +60,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     private final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
 
-
     /* Soket */
     private BluetoothSocket mSocket;
 
@@ -62,6 +68,10 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
     /* Threadの状態を表す */
     private boolean isRunning;
+
+    private Button AruduinoButton;
+    private Button cubicButton;
+
 
     /**
      * 接続ボタン.
@@ -87,6 +97,26 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      * Bluetoothから受信した値.
      */
     private TextView mInputTextView;
+    private TextView mInputTextView2;
+    private TextView mInputTextView3;
+    private TextView mInputTextView4;
+    private TextView mInputTextView5;
+    private TextView mInputTextView6;
+    private TextView mInputTextView7;
+    private TextView mInputTextView8;
+    private TextView mInputTextView9;
+    private TextView mInputTextView10;
+    private TextView mInputTextView11;
+    private TextView mInputTextView12;
+    private TextView mInputTextView13;
+    private TextView mInputTextView14;
+    private TextView mInputTextView15;
+    private TextView mInputTextView16;
+    private TextView mInputTextView17;
+    private TextView mInputTextView18;
+    private TextView mInputTextView19;
+    private TextView mInputTextView20;
+    private TextView mInputTextView21;
 
     /**
      * Action(ステータス表示).
@@ -108,10 +138,25 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
      */
     private boolean connectFlg = false;
 
-    private String out_Text ="";
+    private String out_Text = "";
+    /**
+     * 取得データの終了文字以降(2文字目以降)を格納(文字列)
+     */
+    private String out_Text_bk = "";
 
-    /** 取得データの終了文字以降(2文字目以降)を格納(文字列) */
-    private String out_Text_bk ="";
+    /**
+     * defaultはArduino用 (false)
+     * cubicのときにTrueにする
+     *
+     * @param savedInstanceState
+     */
+
+    private boolean forCubic;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -119,14 +164,41 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         setContentView(R.layout.activity_main);
 
         mInputTextView = (TextView) findViewById(R.id.inputValue);
+        mInputTextView2 = (TextView) findViewById(R.id.inputValue2);
+        mInputTextView3 = (TextView) findViewById(R.id.inputValue3);
+        mInputTextView4 = (TextView) findViewById(R.id.inputValue4);
+        mInputTextView5 = (TextView) findViewById(R.id.inputValue5);
+        mInputTextView6 = (TextView) findViewById(R.id.inputValue6);
+        mInputTextView7 = (TextView) findViewById(R.id.inputValue7);
+        mInputTextView8 = (TextView) findViewById(R.id.inputValue8);
+        mInputTextView9 = (TextView) findViewById(R.id.inputValue9);
+        mInputTextView10 = (TextView) findViewById(R.id.inputValue10);
+        mInputTextView11 = (TextView) findViewById(R.id.inputValue11);
+        mInputTextView12 = (TextView) findViewById(R.id.inputValue12);
+        mInputTextView13 = (TextView) findViewById(R.id.inputValue13);
+        mInputTextView14 = (TextView) findViewById(R.id.inputValue14);
+        mInputTextView15 = (TextView) findViewById(R.id.inputValue15);
+        mInputTextView16 = (TextView) findViewById(R.id.inputValue16);
+        mInputTextView17 = (TextView) findViewById(R.id.inputValue17);
+        mInputTextView18 = (TextView) findViewById(R.id.inputValue18);
+        mInputTextView19 = (TextView) findViewById(R.id.inputValue19);
+        mInputTextView20 = (TextView) findViewById(R.id.inputValue20);
+        mInputTextView21 = (TextView) findViewById(R.id.inputValue21);
+
+
+        mStatusTextView = (TextView) findViewById(R.id.statusValue);
         mStatusTextView = (Button) findViewById(R.id.statusValue);
+
         connectButton = (Button) findViewById(R.id.connectButton);
         ledOnButton = (Button) findViewById(R.id.ledOnButton);
         ledOffButton = (Button) findViewById(R.id.ledOffButton);
-        lButton= (Button) findViewById(R.id.lButton);
+        lButton = (Button) findViewById(R.id.lButton);
+        AruduinoButton = (Button) findViewById(R.id.AruduinoButton);
+        cubicButton = (Button) findViewById(R.id.cubicButton);
 
+        AruduinoButton.setOnClickListener(this);
         connectButton.setOnClickListener(this);
-
+        cubicButton.setOnClickListener(this);
         ledOnButton.setOnClickListener(this);
         ledOffButton.setOnClickListener(this);
         lButton.setOnClickListener(this);
@@ -138,11 +210,8 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mStatusTextView.setText("ペアリングしてください");
         Set<BluetoothDevice> devices = mAdapter.getBondedDevices();
         for (BluetoothDevice device : devices) {
-
-            mStatusTextView.setText("find: " + device.getName()+"\n"+device.getAddress());
-            mDevice=device;
-
-
+            mStatusTextView.setText("find: " + device.getName() + "\n" + device.getAddress());
+            mDevice = device;
         }
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -151,6 +220,9 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
             locationStart();
         }
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -174,7 +246,6 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
         mHandler.sendMessage(valueMsg);
 
         try {
-
             // 取得したデバイス名を使ってBluetoothでSocket接続
             mSocket = mDevice.createRfcommSocketToServiceRecord(MY_UUID);
             mSocket.connect();
@@ -186,6 +257,8 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
             // 取得したバッファのサイズを格納
             int bytes;
+
+            // some
             valueMsg = new Message();
             valueMsg.what = VIEW_STATUS;
             valueMsg.obj = "connected.";
@@ -193,46 +266,98 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
             connectFlg = true;
 
-            while(isRunning){
+            while (isRunning) {
 
-                // InputStreamの読み込み
-                bytes = mmInStream.read(buffer);
-                Log.i(TAG,"bytes="+bytes);
-                // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
-                String readMsg = out_Text_bk + new String(buffer, 0, bytes);
-                // 退避用変数の初期化
-                out_Text_bk = "";
-                // 出力フラグの初期化
-                Boolean dataEndFlg = false;
+                if (forCubic == true) {
+                    // cubic
+                    // InputStreamの読み込み
 
-                // 読み込んだ文字列を1文字ずつ取得
-                for(int i=0 ; readMsg.length() > i ; i++) {
-                    char readChar = readMsg.charAt(i);
-                    // 文字判定
-                    if (readChar == '*')  {
-                        // 終了文字を確認した時点で出力フラグを立てる
-                        dataEndFlg = true;
-                        // 終了文字以降
-                    }else if (dataEndFlg) {
-                        // 文字を退避
-                        out_Text_bk = out_Text_bk + readChar;
-                        // 終了文字以前
-                    }else{
-                        // 出力用に設定
-                        out_Text = out_Text + readChar;
+
+                    bytes = mmInStream.read(buffer);
+                    while (bytes < 200) {
+
                     }
-                }
 
-                // 出力フラグがtrueかつnull(空文字含む)以外なら表示
-                if( dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")){
-                    Log.i(TAG,"value="+out_Text.trim());
 
-                    valueMsg = new Message();
-                    valueMsg.what = VIEW_INPUT;
-                    valueMsg.obj = out_Text.trim();
-                    mHandler.sendMessage(valueMsg);
-                    // 出力用変数の初期化
-                    out_Text = "";
+                    Log.i(TAG, "bytes=" + bytes);
+
+                    // String型に変換
+                    String readMsg = new String(buffer, 0, bytes);
+                    String[] rmessage = new String[20];
+
+
+                    if (bytes > 199) {
+                        // separate data from c-cubic
+                        for (int i = 0; i < 20; i++) {
+                            rmessage[i] = readMsg.substring(i * 10 + 5, i * 10 + 9);
+                        }
+
+                        // for debug
+                        StringBuilder builder = new StringBuilder();
+                        for (int i = 0; i < rmessage.length; i++) {
+                            builder.append(rmessage[i]);
+                            if (i != rmessage.length - 1) {
+                                builder.append(".");
+                            }
+                        }
+                        String str = builder.toString();
+
+                        // null以外なら表示
+                        if (readMsg.trim() != null && !readMsg.trim().equals("")) {
+                            Log.i(TAG, "value=" + readMsg.trim());
+                            valueMsg = new Message();
+                            valueMsg.what = VIEW_INPUT;
+                            valueMsg.obj = rmessage;
+                            mHandler.sendMessage(valueMsg);
+                        } else {
+                            Log.i(TAG, "value=nodata");
+                        }
+                    }
+                    Log.i(TAG, "value=" + readMsg.trim());
+
+                } else {
+                    // arduino
+
+                    // InputStreamの読み込み
+                    bytes = mmInStream.read(buffer);
+                    Log.i(TAG, "bytes=" + bytes);
+                    // String型に変換(退避用に文字が存在する場合はそれも含めて設定)
+                    String readMsg = out_Text_bk + new String(buffer, 0, bytes);
+                    // 退避用変数の初期化
+                    out_Text_bk = "";
+                    // 出力フラグの初期化
+                    Boolean dataEndFlg = false;
+
+                    // 読み込んだ文字列を1文字ずつ取得
+                    for (int i = 0; readMsg.length() > i; i++) {
+                        char readChar = readMsg.charAt(i);
+                        // 文字判定
+                        if (readChar == '*') {
+                            // 終了文字を確認した時点で出力フラグを立てる
+                            dataEndFlg = true;
+                            // 終了文字以降
+                        } else if (dataEndFlg) {
+                            // 文字を退避
+                            out_Text_bk = out_Text_bk + readChar;
+                            // 終了文字以前
+                        } else {
+                            // 出力用に設定
+                            out_Text = out_Text + readChar;
+                        }
+                    }
+
+                    // 出力フラグがtrueかつnull(空文字含む)以外なら表示
+                    if (dataEndFlg && out_Text.trim() != null && !out_Text.trim().equals("")) {
+                        Log.i(TAG, "value=" + out_Text.trim());
+
+                        valueMsg = new Message();
+                        valueMsg.what = VIEW_INPUT;
+                        valueMsg.obj = out_Text.trim();
+                        mHandler.sendMessage(valueMsg);
+                        // 出力用変数の初期化
+                        out_Text = "";
+                    }
+
                 }
             }
 
@@ -252,14 +377,11 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
     }
 
 
-
-
     @Override
     public void onClick(View v) {
         if (v.equals(connectButton)) {
             if (!connectFlg) {
-
-                mStatusTextView.setText("try connect");
+                mStatusTextView.setText("Try connect");
 
                 mThread = new Thread(this);
                 // Threadを起動し、Bluetooth接続
@@ -294,7 +416,7 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
             } else {
                 mStatusTextView.setText("Please push the connect button");
             }
-        }else if (v.equals(lButton)){
+        } else if (v.equals(lButton)) {
             if (connectFlg) {
                 try {
                     mmOutputStream.write("2".getBytes());
@@ -303,29 +425,74 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
                     Message valueMsg = new Message();
                     valueMsg.what = VIEW_STATUS;
                     valueMsg.obj = "Error5:" + e;
-                    mHandler.sendMessage(valueMsg);}
+                    mHandler.sendMessage(valueMsg);
                 }
+            }
+        } else if (v.equals(AruduinoButton)) {
+            if (connectFlg) {
+                mStatusTextView.setText("Aruduino Mode:");
+
+                forCubic = false;
+
+            }
+        } else if (v.equals(cubicButton)) {
+            if (connectFlg) {
+                mStatusTextView.setText("C-Cubic Mode:");
+
+                forCubic = true;
+
+
+            }
         }
+
     }
 
-    /**っs
+    /**
      * 描画処理はHandlerでおこなう
      */
     Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             int action = msg.what;
-            String msgStr = (String) msg.obj;
-            if (action == VIEW_INPUT) {
-                mInputTextView.setText(msgStr);
-            } else if (action == VIEW_STATUS) {
-                mStatusTextView.setText(msgStr);
+            if (forCubic == true) {
+                if (action == VIEW_INPUT) {
+                    String[] messages = (String[]) msg.obj;
+                    mInputTextView.setText(messages[0]);
+                    mInputTextView2.setText(messages[1]);
+                    mInputTextView3.setText(messages[2]);
+                    mInputTextView4.setText(messages[3]);
+                    mInputTextView5.setText(messages[4]);
+                    mInputTextView6.setText(messages[5]);
+                    mInputTextView7.setText(messages[6]);
+                    mInputTextView8.setText(messages[7]);
+                    mInputTextView9.setText(messages[8]);
+                    mInputTextView10.setText(messages[9]);
+                    mInputTextView11.setText(messages[10]);
+                    mInputTextView12.setText(messages[11]);
+                    mInputTextView13.setText(messages[12]);
+                    mInputTextView14.setText(messages[13]);
+                    mInputTextView15.setText(messages[14]);
+                    mInputTextView16.setText(messages[15]);
+                    mInputTextView17.setText(messages[16]);
+                    mInputTextView18.setText(messages[17]);
+                    mInputTextView19.setText(messages[18]);
+                    mInputTextView20.setText(messages[19]);
+
+                } else if (action == VIEW_STATUS) {
+                    String messages = (String) msg.obj;
+                    mStatusTextView.setText(messages);
+                }
+            } else {
+                String messages = (String) msg.obj;
+                if (action == VIEW_INPUT) {
+                    mInputTextView.setText(messages);
+                } else if (action == VIEW_STATUS) {
+                    mStatusTextView.setText(messages);
+                }
             }
+
         }
     };
-
-
-
 
     private void locationStart() {
         Log.d("debug", "locationStart()");
@@ -389,15 +556,13 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
-        // 緯度の表示
-        TextView textView1 = (TextView) findViewById(R.id.text_View1);
-        textView1.setText("Latitude:" + location.getLatitude());
-
-        // 経度の表示
-        TextView textView2 = (TextView) findViewById(R.id.text_View2);
-        textView2.setText("Longitude:" + location.getLongitude());
-
-
+//        // 緯度の表示
+//        TextView textView1 = (TextView) findViewById(R.id.text_View1);
+//        textView1.setText("Latitude:" + location.getLatitude());
+//
+//        // 経度の表示
+//        TextView textView2 = (TextView) findViewById(R.id.text_View2);
+//        textView2.setText("Longitude:" + location.getLongitude());
     }
 
     @Override
@@ -407,5 +572,42 @@ public class MainActivity extends ActionBarActivity implements LocationListener,
 
     @Override
     public void onProviderDisabled(String provider) {
+
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 }
